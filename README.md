@@ -20,18 +20,9 @@ _**Note:** You must be a super-admin for the account that you want to install th
    ```bash
    $ git clone git@github.com:HubSpot/oauth-quickstart-nodejs.git
    ```
-2. Create a **`.env`** file in the root of the repository with the ID and secret for your app (found on the app settings page), eg:
-   ```
-   CLIENT_ID='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
-   CLIENT_SECRET='yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy'
-   SCOPE='crm.objects.contacts.read,forms'
-   ```
-   The `SCOPE` environment variable is optional in this example. 
-   If not set, this application will use the scope `crm.objects.contacts.read`.
-   The scopes can be separated by a comma, space, or URL-encoded space (`%20`)
-3. From the root of the repository, run:
+2. From the root of the repository, run:
    ```bash
    $ yarn install
    $ yarn start
    ```
-4. Open your browser to `http://localhost:3000/install` to kick off the OAuth 2.0 flow
+3. Open your browser to `http://localhost:3000/install` to kick off the OAuth 2.0 flow
