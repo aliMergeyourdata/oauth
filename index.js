@@ -36,7 +36,7 @@ if (process.env.SCOPE) {
 }
 
 // On successful install, users will be redirected to /oauth-callback
-const REDIRECT_URI = `http://34.171.202.25:3000/oauth-callback`;
+const REDIRECT_URI = `http://localhost:3000/oauth-callback`;
 
 //===========================================================================//
 
