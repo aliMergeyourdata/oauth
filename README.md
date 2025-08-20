@@ -18,7 +18,7 @@ _**Note:** You must be a super-admin for the account that you want to install th
 
 1. Clone the repository:
    ```bash
-   $ git clone git@github.com:HubSpot/oauth-quickstart-nodejs.git
+   $ git clone git@github.com:aliMergeyourdata/oauth.git
    ```
 2. From the root of the repository, run:
    ```bash
