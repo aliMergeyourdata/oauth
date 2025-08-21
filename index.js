@@ -36,7 +36,7 @@ if (process.env.SCOPE) {
 }
 
 // On successful install, users will be redirected to /oauth-callback
-const REDIRECT_URI = `http://localhost:3000/oauth-callback`;
+const REDIRECT_URI = `https://dialpad.mergeyourdata.com/oauth-callback`;
 
 //===========================================================================//
 
@@ -216,4 +216,4 @@ app.get('/error', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`=== Starting your app on http://localhost:${PORT} ===`));
-opn(`http://localhost:${PORT}`);
+//opn(`http://localhost:${PORT}`);
