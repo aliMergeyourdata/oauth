@@ -6,10 +6,12 @@ const session = require('express-session');
 const opn = require('open');
 const app = express();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+const DOMAIN = process.env.DOMAIN || 'https://dialpad.mergeyourdata.com';
 
 const refreshTokenStore = {};
 const accessTokenCache = new NodeCache({ deleteOnExpire: true });
+const authCodeStore = {};
 
 if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
     throw new Error('Missing CLIENT_ID or CLIENT_SECRET environment variable.')
@@ -36,7 +38,7 @@ if (process.env.SCOPE) {
 }
 
 // On successful install, users will be redirected to /oauth-callback
-const REDIRECT_URI = `http://localhost:${PORT}/oauth-callback`;
+const REDIRECT_URI = `${DOMAIN}/oauth-callback`;
 
 //===========================================================================//
 
@@ -86,6 +88,9 @@ app.get('/oauth-callback', async (req, res) => {
   // required values and exchange both for an access token and a refresh token
   if (req.query.code) {
     console.log('       > Received an authorization token');
+
+    // Store the authorization code for display
+    authCodeStore[req.sessionID] = req.query.code;
 
     const authCodeProof = {
       grant_type: 'authorization_code',
@@ -153,6 +158,14 @@ const getAccessToken = async (userId) => {
   return accessTokenCache.get(userId);
 };
 
+const getRefreshToken = (userId) => {
+  return refreshTokenStore[userId];
+};
+
+const getAuthCode = (userId) => {
+  return authCodeStore[userId];
+};
+
 const isAuthorized = (userId) => {
   return refreshTokenStore[userId] ? true : false;
 };
@@ -200,8 +213,13 @@ app.get('/', async (req, res) => {
   res.write(`<h2>HubSpot OAuth 2.0 Quickstart App</h2>`);
   if (isAuthorized(req.sessionID)) {
     const accessToken = await getAccessToken(req.sessionID);
+    const refreshToken = getRefreshToken(req.sessionID);
+    const authCode = getAuthCode(req.sessionID);
     const contact = await getContact(accessToken);
+    
+    res.write(`<h4>Authorization Code: ${authCode}</h4>`);
     res.write(`<h4>Access token: ${accessToken}</h4>`);
+    res.write(`<h4>Refresh token: ${refreshToken}</h4>`);
     displayContactName(res, contact);
   } else {
     res.write(`<a href="/install"><h3>Install the app</h3></a>`);
@@ -215,5 +233,6 @@ app.get('/error', (req, res) => {
   res.end();
 });
 
-app.listen(PORT, () => console.log(`=== Starting your app on http://localhost:${PORT} ===`));
-opn(`http://localhost:${PORT}`);
+app.listen(PORT, () => console.log(`=== Starting your app on ${DOMAIN} ===`));
+// Remove opn for production deployment
+// opn(`http://localhost:${PORT}`);
