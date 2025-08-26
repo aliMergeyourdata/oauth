@@ -38,7 +38,7 @@ if (process.env.SCOPE) {
 }
 
 // On successful install, users will be redirected to /oauth-callback
-const REDIRECT_URI = `${DOMAIN}/oauth-callback`;
+const REDIRECT_URI = `https://dialpad.mergeyourdata.com/oauth-callback`;
 
 //===========================================================================//
 
