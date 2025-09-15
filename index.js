@@ -7,7 +7,7 @@ const opn = require('open');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-const DOMAIN = process.env.DOMAIN || 'https://dialpad.mergeyourdata.com';
+const DOMAIN = process.env.DOMAIN;
 
 const refreshTokenStore = {};
 const accessTokenCache = new NodeCache({ deleteOnExpire: true });
@@ -38,7 +38,7 @@ if (process.env.SCOPE) {
 }
 
 // On successful install, users will be redirected to /oauth-callback
-const REDIRECT_URI = `https://dialpad.mergeyourdata.com/oauth-callback`;
+const REDIRECT_URI = `${DOMAIN}/oauth-callback`;
 
 //===========================================================================//
 
